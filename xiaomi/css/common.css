@@ -1,0 +1,71 @@
+/* 初始化 */
+/* 全局初始化 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 页面基础 */
+html,
+body {
+  height: 100%;
+  font-family: "Microsoft YaHei", sans-serif;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
+/* 列表 */
+ul,
+ol,
+em {
+  list-style: none;
+}
+
+em {
+  font-style: normal;
+}
+
+/* 链接 */
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* 图片 */
+img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+/* 表单 */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+/* 按钮 */
+button {
+  cursor: pointer;
+}
+
+/* 表格 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+i {
+  font-style: var(--font-normal);
+}
+
+/* 版心 */
+.w {
+  margin: 0 auto;
+  width: 1226px;
+}
