@@ -1,0 +1,357 @@
+/* 右侧工艺详细模块 */
+.right {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex: 3;
+  flex-shrink: 0;
+  height: 100%;
+  min-height: 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.right-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  /* background-color: skyblue; */
+}
+
+.right-header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.right-header-title p:first-child {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+}
+
+.right-header-title p:last-child {
+  font-size: 14px;
+  color: #666;
+}
+
+.right-header-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  /* background-color: palegoldenrod; */
+}
+
+.right-header-btn button {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+#clear-Step-Btn {
+  background-color: #ccc9c9;
+}
+
+
+
+.right-content {
+  padding: 10px;
+  height: 100%;
+  border: 1px solid #ededed;
+  border-radius: 8px;
+}
+
+.right-content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* background-color: skyblue; */
+}
+
+.right-content ul li {
+  display: block;
+  font-size: 16px;
+  color: #111;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.right-content ul li:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.right-content ul li .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: skyblue; */
+}
+
+.right-content ul li .item .con {
+  font-size: 16px;
+  color: #111;
+  /* background-color: skyblue; */
+}
+
+.right-content ul li .item .del {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.right-content ul li .item .del button {
+  font-size: 12px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff3f3f;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.right-content ul li .item .del button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 删除工艺弹窗 */
+.clear-Step-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  transition: all 0.4s ease-in-out;
+}
+
+.clear-Step {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 40px 20px 30px 40px;
+  height: 180px;
+  width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid var(--bg-black);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  /* background-color: skyblue; */
+}
+
+.clear-Step-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+}
+
+.clear-Step-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.clear-Step-footer button {
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background-color: #7da3da;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
+}
+
+.clear-Step-footer button:hover {
+  transform: translateY(-1px);
+  background-color: #6786e5;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* 新增工序弹窗 */
+/* 新增弹框*/
+.add-Step-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  transition: all 0.4s ease-in-out;
+}
+
+.add-Step {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  height: 180px;
+  width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid var(--bg-black);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.add-Step-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+}
+
+.add-Step-content {
+  display: flex;
+  flex-direction: column;
+  /* gap: 5px; */
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.add-Step-content input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.add-Step-content p.error {
+  font-size: 12px;
+  color: rgb(229, 62, 62);
+  margin-top: 5px;
+  /* display: none; */
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.add-Step-content input:focus+p.error {
+  display: block;
+}
+
+.add-Step-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.add-Step-footer button {
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background-color: #7da3da;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
+}
+
+.add-Step-footer button:hover {
+  transform: translateY(-1px);
+  background-color: #6786e5;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* 清除特定工序弹窗 */
+.del-Step-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  transition: all 0.4s ease-in-out;
+}
+
+.del-Step {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 40px 20px 30px 40px;
+  height: 180px;
+  width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid var(--bg-black);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  /* background-color: skyblue; */
+}
+
+.del-Step-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+}
+
+.del-Step-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.del-Step-footer button {
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background-color: #7da3da;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
+}
+
+.del-Step-footer button:hover {
+  transform: translateY(-1px);
+  background-color: #6786e5;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}

@@ -1,0 +1,90 @@
+/* 通用初始化 CSS
+   - 提供轻量级 reset
+   - 设置合适的基础排版
+*/
+
+/* 使用 border-box，避免尺寸计算不一致 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 去除不同浏览器默认的段落/标题间距 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* 列表：去除默认缩进/样式 */
+ul,
+ol,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 链接：继承颜色，不要默认下划线 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 图片/媒体：块级显示并限制最大宽度 */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 表格：合并边框，去除边距 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 表单元素：继承字体并去掉默认外边距 */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  margin: 0;
+}
+
+input {
+  outline: none;
+}
+
+button {
+  border: none;
+}
