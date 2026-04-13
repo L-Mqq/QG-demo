@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生成绩与通知</title>
+  <link rel="stylesheet" href="./student.css">
+</head>
+
+<body>
+  <div class="student-page">
+    <!-- 学生端导航栏 -->
+    <header class="topbar card">
+      <div>
+        <h1>学生端</h1>
+        <p>查询本人成绩与班级统计；查看本班通</p>
+      </div>
+      <div class="user-info">
+        <span class="user-name">刘雨</span>
+        <a class="btn btn-logout" href="javascript:;">退出登录</a>
+      </div>
+    </header>
+
+    <!-- 学生个人信息 -->
+    <section class="panel profile-panel card">
+      <h2>我的信息</h2>
+      <div class="row-inline">
+        <div class="field">
+          <label>班级</label>
+          <div class="readonly" id="classId">高一（3）班</div>
+        </div>
+        <div class="field">
+          <label>学号</label>
+          <div class="readonly" id="studentId">2026032</div>
+        </div>
+      </div>
+      <div class="row-inline">
+        <div class="field">
+          <label>姓名</label>
+          <div class="readonly" id="userName">刘雨</div>
+        </div>
+        <div class="field">
+          <label>学期</label>
+          <div class="readonly">2025-2026 上学期</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 成绩筛选 -->
+    <section class="panel filter-panel card">
+      <h2>成绩筛选（仅本人）</h2>
+
+      <div class="desktop-filter">
+        <div class="field">
+          <label for="subject">学科</label>
+          <select id="subject">
+            <option>全部</option>
+            <option>语文</option>
+            <option>数学</option>
+            <option>英语</option>
+            <option>物理</option>
+          </select>
+        </div>
+        <div class="button-group compact">
+          <button class="btn btn-primary search-btn">查询</button>
+        </div>
+      </div>
+
+      <details class="mid-filter">
+        <summary>展开筛选条件</summary>
+        <div class="stack">
+          <div class="field">
+            <label for="subjectMid">学科</label>
+            <select id="subjectMid">
+              <option>全部</option>
+              <option>语文</option>
+              <option>数学</option>
+              <option>英语</option>
+              <option>物理</option>
+            </select>
+          </div>
+          <div class="button-group">
+            <button class="btn btn-primary">查询</button>
+          </div>
+        </div>
+      </details>
+
+      <input class="mobile-filter-toggle" type="checkbox" id="mobileFilterToggle">
+      <label class="btn btn-primary mobile-filter-open" for="mobileFilterToggle">打开筛选弹窗</label>
+      <div class="mobile-filter-modal">
+        <label class="overlay" for="mobileFilterToggle"></label>
+        <div class="mobile-filter-card card">
+          <div class="modal-head">
+            <h3>成绩筛选</h3>
+            <label class="close" for="mobileFilterToggle">关闭</label>
+          </div>
+          <div class="stack">
+            <div class="field">
+              <label for="subjectMobile">学科</label>
+              <select id="subjectMobile">
+                <option>全部</option>
+                <option>语文</option>
+                <option>数学</option>
+                <option>英语</option>
+              </select>
+            </div>
+            <div class="button-group">
+              <button class="btn btn-primary">应用筛选</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 成绩管理 -->
+    <section class="panel score-panel card">
+      <div class="panel-head">
+        <h2>我的成绩</h2>
+        <div class="hint-inline"></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>学科</th>
+              <th>分数</th>
+              <th>班级均分</th>
+              <th>班级名次</th>
+            </tr>
+          </thead>
+          <tbody id="scoreTable">
+            <tr>
+              <td>04-06</td>
+              <td>英语</td>
+              <td>86</td>
+              <td>82.1</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td>04-02</td>
+              <td>数学</td>
+              <td>93</td>
+              <td>88.5</td>
+              <td>5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stats">
+        <div class="stat card">
+          <div class="k">班级平均分</div>
+          <div class="v" id="avgScore"></div>
+        </div>
+        <div class="stat card">
+          <div class="k">班级及格率</div>
+          <div class="v" id="passRate"></div>
+        </div>
+        <div class="stat card">
+          <div class="k">班级最高分</div>
+          <div class="v" id="maxScore"></div>
+        </div>
+        <div class="stat card">
+          <div class="k">班级最低分</div>
+          <div class="v" id="minScore"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 通知管理 -->
+    <section class="panel notice-panel card">
+      <div class="panel-head">
+        <h2>本班通知</h2>
+        <!-- <div class="hint-inline">操作：点击“标记已读”（示意）</div> -->
+      </div>
+      <ul class="notice-list">
+        <li class="unread">
+          <div class="notice-main">
+            <span class="notice-title">[本班] 明天早读提前 10 分钟</span>
+            <span class="notice-time">今天 10:20</span>
+          </div>
+          <button class="btn btn-small">标记已读</button>
+        </li>
+        <li class="unread">
+          <div class="notice-main">
+            <span class="notice-title">[本班] 期中考试时间安排</span>
+            <span class="notice-time">昨天 18:30</span>
+          </div>
+          <button class="btn btn-small">标记已读</button>
+        </li>
+        <li>
+          <div class="notice-main">
+            <span class="notice-title">[本班] 周五班会主题：学习规划</span>
+            <span class="notice-time">前天 16:05</span>
+          </div>
+          <span class="read-tag">已读</span>
+        </li>
+      </ul>
+      <!-- <div class="hint">提示：仅显示所属班级通知。</div> -->
+    </section>
+  </div>
+  <!-- 引入 common.js -->
+  <script src="../js/common.js"></script>
+  <script src="./js/student.js"></script>
+  <script src="./js/scoreList.js"></script>
+  <script src="./js/queryScore.js"></script>
+</body>
+
+</html>
