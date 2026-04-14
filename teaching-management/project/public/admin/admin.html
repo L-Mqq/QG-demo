@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教务主任管理台</title>
+  <link rel="stylesheet" href="./admin.css">
+</head>
+
+<body>
+  <div class="admin-page">
+    <!-- 顶部导航栏 -->
+    <header class="topbar card">
+      <div>
+        <h1>教务主任工作台</h1>
+        <p>全功能权限：跨班级访问、班级管理、成绩管理、日志查看、数据导出、教师绑定</p>
+      </div>
+      <div class="user-info">
+        <span class="user-name">管理员</span>
+        <a class="btn btn-logout" href="javascript:;">退出登录</a>
+      </div>
+    </header>
+
+    <!-- 班级与教师管理 -->
+    <section class="panel class-panel card">
+      <h2>班级与教师管理</h2>
+      <div class="row-inline">
+        <div class="field">
+          <label for="classSelect">班级</label>
+          <select id="classSelect">
+            <option value="">请选择班级</option>
+            <option value="">高一（1）班</option>
+            <option value="">高一（2）班</option>
+            <option value="">高一（3）班</option>
+            <option value="">高二（1）班</option>
+            <option value="">高二（2）班</option>
+          </select>
+          <span class="del-class-message"></span>
+        </div>
+        <div class="field">
+          <label for="teacherSelect">教师绑定</label>
+          <select id="teacherSelect">
+            <!-- <option>请选择教师</option>
+            <option>张老师（数学）</option>
+            <option>李老师（语文）</option>
+            <option>王老师（英语）</option> -->
+          </select>
+          <span class="bind-teacher-message"></span>
+        </div>
+      </div>
+      <div class="message-container">
+        <span class="add-class-message"></span>
+      </div>
+      <div class="button-group right">
+        <button class="btn btn-primary" id="addClassBtn">新增班级</button>
+        <button class="btn btn-primary" id="saveSubmit">保存绑定</button>
+        <button class="btn btn-class">删除班级</button>
+      </div>
+    </section>
+
+    <!-- 筛选条件 -->
+    <section class="panel filter-panel card">
+      <h2>筛选条件</h2>
+      <!-- 桌面端筛选条件 -->
+      <div class="desktop-filter">
+        <div class="field">
+          <label for="class">班级</label>
+          <select id="class">
+            <!-- <option>全部</option>
+            <option>高一（1）班</option>
+            <option>高一（2）班</option>
+            <option>高一（3）班</option> -->
+          </select>
+        </div>
+        <div class="field">
+          <label for="studentId">学号</label>
+          <select id="studentId">
+            <!-- <option>全部</option>
+            <option>2026001</option>
+            <option>2026032</option>
+            <option>2025112</option> -->
+          </select>
+        </div>
+        <div class="field">
+          <label for="subject">学科</label>
+          <select id="subject">
+            <!-- <option>全部</option>
+            <option>语文</option>
+            <option>数学</option>
+            <option>英语</option>
+            <option>物理</option> -->
+          </select>
+        </div>
+        <div class="button-group compact">
+          <button class="btn btn-primary" id="queryBtn">查询</button>
+          <button class="btn" id="exportBtn">导出数据</button>
+          <button class="btn" id="logBtn">查看日志</button>
+        </div>
+      </div>
+      <!-- 平板筛选条件 -->
+      <details class="mid-filter">
+        <summary>展开筛选条件</summary>
+        <div class="stack">
+          <div class="field">
+            <label for="classMid">班级</label>
+            <select id="classMid">
+              <option>全部</option>
+              <option>高一（1）班</option>
+              <option>高一（2）班</option>
+              <option>高一（3）班</option>
+              <option>高二（1）班</option>
+              <option>高二（2）班</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="studentIdMid">学号</label>
+            <select id="studentIdMid">
+              <option>全部</option>
+              <option>2026001</option>
+              <option>2026032</option>
+              <option>2025112</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="subjectMid">学科</label>
+            <select id="subjectMid">
+              <option>全部</option>
+              <option>语文</option>
+              <option>数学</option>
+              <option>英语</option>
+            </select>
+          </div>
+          <div class="button-group">
+            <button class="btn btn-primary">查询</button>
+            <button class="btn">导出数据</button>
+          </div>
+        </div>
+      </details>
+      <!-- 手机端筛选条件 -->
+      <input class="mobile-filter-toggle" type="checkbox" id="mobileFilterToggle">
+      <label class="btn btn-primary mobile-filter-open" for="mobileFilterToggle">打开筛选弹窗</label>
+      <div class="mobile-filter-modal">
+        <label class="overlay" for="mobileFilterToggle"></label>
+        <div class="mobile-filter-card card">
+          <div class="modal-head">
+            <h3>筛选条件</h3>
+            <label class="close" for="mobileFilterToggle">关闭</label>
+          </div>
+          <div class="stack">
+            <div class="field">
+              <label for="classMobile">班级</label>
+              <select id="classMobile">
+                <option>全部</option>
+                <option>高一（1）班</option>
+                <option>高一（2）班</option>
+                <option>高一（3）班</option>
+                <option>高二（1）班</option>
+                <option>高二（2）班</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="studentIdMobile">学号</label>
+              <select id="studentIdMobile">
+                <option>全部</option>
+                <option>2026001</option>
+                <option>2026032</option>
+                <option>2025112</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="subjectMobile">学科</label>
+              <select id="subjectMobile">
+                <option>全部</option>
+                <option>语文</option>
+                <option>数学</option>
+                <option>英语</option>
+              </select>
+            </div>
+            <div class="button-group">
+              <button class="btn btn-primary">应用筛选</button>
+              <button class="btn">导出数据</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 成绩管理 -->
+    <section class="panel score-panel card">
+      <div class="panel-head">
+        <h2>成绩管理（增删改查）</h2>
+        <div class="button-group compact">
+          <button class="btn btn-primary">新增成绩</button>
+          <button class="btn">批量更新</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>班级</th>
+              <th>学号</th>
+              <th>姓名</th>
+              <th>学科</th>
+              <th>成绩</th>
+              <th>更新时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="scoreTable">
+            <tr>
+              <td>高一（1）班</td>
+              <td>2026001</td>
+              <td>陈明</td>
+              <td>数学</td>
+              <td>92</td>
+              <td>04-06 16:20</td>
+              <td><a href="#">查看</a> / <a href="#">编辑</a></td>
+            </tr>
+            <tr>
+              <td>高一（3）班</td>
+              <td>2026032</td>
+              <td>刘雨</td>
+              <td>英语</td>
+              <td>86</td>
+              <td>04-06 17:40</td>
+              <td><a href="#">查看</a> / <a href="#">编辑</a></td>
+            </tr>
+            <tr>
+              <td>高二（2）班</td>
+              <td>2025112</td>
+              <td>赵凡</td>
+              <td>语文</td>
+              <td>89</td>
+              <td>04-07 09:15</td>
+              <td><a href="#">查看</a> / <a href="#">编辑</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="stats">
+        <div class="stat card">
+          <div class="k">平均分</div>
+          <div class="v" id="avgScore"></div>
+        </div>
+        <div class="stat card">
+          <div class="k">及格率</div>
+          <div class="v" id="passRate"></div>
+        </div>
+        <div class="stat card">
+          <div class="k">最高分</div>
+          <div class="v" id="maxScore"></div>
+        </div>
+        <div class="stat card">
+          <div class="k">最低分</div>
+          <div class="v" id="minScore"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 全量班级通知 -->
+    <section class="panel notice-panel card">
+      <h2>全量班级通知</h2>
+      <ul class="notice-list">
+        <li class="unread">
+          <span class="notice-title">[高一年级] 期中考试成绩发布</span>
+          <span class="notice-time">今天 10:20</span>
+        </li>
+        <li class="unread">
+          <span class="notice-title">[高二（2）班] 家长会通知确认</span>
+          <span class="notice-time">今天 09:10</span>
+        </li>
+        <li>
+          <span class="notice-title">[教务处] 成绩录入截止时间提醒</span>
+          <span class="notice-time">昨天 18:30</span>
+        </li>
+      </ul>
+    </section>
+
+    <!--确认删除弹框 -->
+    <div class="modal" id="deleteModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>删除班级</h2>
+        </div>
+        <div class="modal-body">
+          <p>确认删除班级 <span id="className"></span> 吗？</p>
+          <div class="warning-message"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-class" id="confirmDelete">确认删除</button>
+          <button class="btn btn-primary" id="cancelDelete">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!--确认保存修改弹框 -->
+    <div class="modal" id="saveModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>保存修改</h2>
+        </div>
+        <div class="modal-body">
+          <p>确认保存修改吗？</p>
+          <div class="save-message"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-class" id="confirmSave">确认保存</button>
+          <button class="btn btn-primary" id="cancelSave">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新增班级的弹框 -->
+    <div class="modal" id="addClassModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>新增班级</h2>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label for="addClass">班级名称</label>
+            <input type="text" id="addClass" name="addClass" placeholder="例：高一(3)班" required autocomplete="off">
+            <div class="class-container">
+              <span class="class-message"></span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="addClassTeacher">绑定教师</label>
+            <select id="addClassTeacher">
+              <!-- <option value="">请选择教师</option> -->
+            </select>
+            <div class="teacher-container">
+              <span class="teacher-message"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="cancelAdd">取消</button>
+          <button class="btn btn-primary" id="addClassSubmit">确认新增</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 解除教师绑定的弹框 -->
+    <div class="modal" id="unbindTeacherModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>解绑教师</h2>
+        </div>
+        <div class="modal-body">
+          <p>请选择新的教师或选择无教师来解除绑定</p>
+          <div class="field">
+            <label for="unbindTeacherSelect">选择教师</label>
+            <select id="unbindTeacherSelect">
+              <option value="">无教师</option>
+            </select>
+            <div class="unbind-teacher-message"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="cancelUnbind">取消</button>
+          <button class="btn btn-class" id="confirmUnbind">确定更换</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新增成绩的弹框 -->
+    <div class="modal" id="addScoreModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>新增成绩</h2>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label for="scoreClass">班级</label>
+            <select id="scoreClass" required>
+              <option value="">请选择班级</option>
+            </select>
+            <div class="addScores-class-message-container">
+              <span class="addScores-class-message">请选择班级</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="scoreStudentId">学生</label>
+            <select id="scoreStudentId" required>
+              <option value="">请先选择班级</option>
+            </select>
+            <div class="addScores-studentId-message-container">
+              <span class="addScores-studentId-message">请选择学生</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="scoreSubject">学科</label>
+            <select id="scoreSubject" required>
+              <!-- <option value="">请选择学科</option>
+              <option value="语文">语文</option>
+              <option value="数学">数学</option>
+              <option value="英语">英语</option>
+              <option value="物理">物理</option>
+              <option value="化学">化学</option> -->
+            </select>
+            <div class="addScores-subject-message-container">
+              <span class="addScores-subject-message">请选择学科</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="scoreValue">成绩</label>
+            <input type="number" id="scoreValue" min="0" max="100" placeholder="请输入成绩" required>
+            <div class="addScores-score-message-container">
+              <span class="addScores-score-message">请输入成绩</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" id="cancelAddScore">取消</button>
+          <button class="btn btn-primary" id="confirmAddScore">确认新增</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 查看成绩的弹框 -->
+    <div class="modal" id="viewScoreModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>查看成绩</h2>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label>班级</label>
+            <div class="view-field" id="viewClass"></div>
+          </div>
+          <div class="field">
+            <label>学号</label>
+            <div class="view-field" id="viewStudentId"></div>
+          </div>
+          <div class="field">
+            <label>姓名</label>
+            <div class="view-field" id="viewStudentName"></div>
+          </div>
+          <div class="field">
+            <label>学科</label>
+            <div class="view-field" id="viewSubject"></div>
+          </div>
+          <div class="field">
+            <label>成绩</label>
+            <div class="view-field" id="viewScore"></div>
+          </div>
+          <div class="field">
+            <label>更新时间</label>
+            <div class="view-field" id="viewUpdateTime"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="cancelView">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 编辑成绩的弹框 -->
+    <div class="modal" id="editScoreModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>编辑成绩</h2>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label>班级</label>
+            <div class="view-field" id="editClass"></div>
+          </div>
+          <div class="field">
+            <label>学号</label>
+            <div class="view-field" id="editStudentId"></div>
+          </div>
+          <div class="field">
+            <label>姓名</label>
+            <div class="view-field" id="editStudentName"></div>
+          </div>
+          <div class="field">
+            <label>学科</label>
+            <div class="view-field" id="editSubject"></div>
+          </div>
+          <div class="field">
+            <label for="editScoreValue">成绩</label>
+            <input type="number" id="editScoreValue" min="0" max="100" required>
+            <div class="editScores-score-message-container">
+              <span class="editScores-score-message">请输入成绩</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>更新时间</label>
+            <div class="view-field" id="editUpdateTime"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" id="cancelEdit">取消</button>
+          <button class="btn btn-primary" id="confirmEdit">确认修改</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 退出登录确认弹框 -->
+    <div class="modal" id="logoutConfirmModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>退出登录</h2>
+        </div>
+        <div class="modal-body">
+          <p>确认退出登录吗？</p>
+          <span class="logout-message">退出登录成功</span>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-class" id="confirmLogout">确认</button>
+          <button class="btn btn-primary" id="cancelLogout">取消</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- 引入 common.js -->
+  <script src="../js/common.js"></script>
+  <script src="./js/admin.js"></script>
+  <script src="./js/addClass.js"></script>
+  <script src="./js/delClass.js"></script>
+  <script src="./js/queryScore.js"></script>
+  <script src="./js/addScore.js"></script>
+  <script src="./js/editScore.js"></script>
+  <script src="./js/viewScore.js"></script>
+  <script src="./js/logout.js"></script>
+  <script src="./js/bindTeacher.js"></script>
+  <!-- <script src="./js/changeTeacher.js"></script> -->
+</body>
+
+</html>
