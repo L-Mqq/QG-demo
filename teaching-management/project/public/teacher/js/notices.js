@@ -343,6 +343,7 @@ function viewNotice(noticeData) {
     }, 1000);
   };
 
+
   // 编辑通知
   editNotice.onclick = () => {
     editNotices(noticeData);

@@ -77,7 +77,7 @@ router.get('/', verifyToken, async (req, res) => {
     `;
     let params = [];
 
-    //
+    //如果是教师登录，只能获取自己发布的通知和班级通知或者是全校通知
     if (userRole === 'teacher') {
       sql += ' AND (n.teacher_id = ? OR n.class_id = ? OR n.class_id IS NULL)';
       params.push(userId, userClassId);

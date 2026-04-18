@@ -7,7 +7,7 @@ async function renderScoreAndDetail(class_id, classScoreList) {
   ]);
 
   const classList = classRes.data
-  const userList = usersRes.data;
+  const userList = usersRes.data
 
   // console.log(userList)
   // console.log(classList)
