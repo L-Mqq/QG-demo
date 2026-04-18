@@ -17,6 +17,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/classes', require('./routes/classes'));
 app.use('/api/scores', require('./routes/scores'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/logs', require('./routes/log'));
+app.use('/api/notices', require('./routes/notices'));
 
 
 
@@ -30,6 +32,6 @@ app.get('/', (req, res) => {
 
 // 启动服务器
 app.listen(config.port, () => {
-  console.log(`🚀 服务器运行在 http://localhost:${config.port}`);
-  console.log(`📋 登录接口: http://localhost:${config.port}/api/auth/login`);
+  console.log(`服务器运行在 http://localhost:${config.port}`);
+  console.log(`登录接口: http://localhost:${config.port}/api/auth/login`);
 });

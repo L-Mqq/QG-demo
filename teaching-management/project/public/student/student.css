@@ -146,7 +146,8 @@ label {
   color: var(--muted);
 }
 
-.readonly {
+.readonly,
+.view-field {
   width: 100%;
   border: 1px solid #c5dbfa;
   border-radius: 8px;
@@ -154,6 +155,16 @@ label {
   font-size: 14px;
   background: #fbfdff;
   color: #1a3c67;
+}
+
+.view-field.notice-content {
+  min-height: 120px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  text-align: left;
+  vertical-align: top;
+  display: flex;
+  align-items: flex-start;
 }
 
 input,
@@ -315,6 +326,14 @@ tbody tr:hover {
   gap: 10px;
 }
 
+.notice-wrap {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 350px;
+}
+
 .notice-list li {
   border: 1px solid #d8e8ff;
   border-radius: 10px;
@@ -324,6 +343,7 @@ tbody tr:hover {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  margin: 8px;
 }
 
 .notice-list li.unread {
@@ -507,6 +527,10 @@ tbody tr:nth-child(odd) {
 
   .notice-panel {
     min-height: 70vh;
+  }
+
+  .notice-wrap {
+    max-height: 390px;
   }
 
   .notice-list li {

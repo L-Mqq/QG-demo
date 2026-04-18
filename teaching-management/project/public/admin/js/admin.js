@@ -39,6 +39,7 @@ function renderClassList() {
     document.querySelector('#classMid').innerHTML = `<option value="">请选择班级</option>${str}`;
     document.querySelector('#classMobile').innerHTML = `<option value="">请选择班级</option>${str}`;
     document.querySelector('#scoreClass').innerHTML = `<option value="">请选择班级</option>${str}`;
+    document.querySelector('#noticeClass').innerHTML = `<option value="">请选择班级</option><option value="all">所有班级</option>${str}`;
 
   });
 }

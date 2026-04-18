@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/db');
 const { verifyToken } = require('../middleware/auth');
+const { addLog } = require('../utils/logger');
 
 // 获取所有成绩
 router.get('/', verifyToken, async (req, res) => {
@@ -26,6 +27,10 @@ router.post('/', verifyToken, async (req, res) => {
   try {
     const { class_id, student_id, subject, score } = req.body;
     const [result] = await db.query('INSERT INTO scores (class_id, student_id, subject, score) VALUES (?, ?, ?, ?)', [class_id, student_id, subject, score]);
+
+    // 记录日志
+    await addLog(req, '新增成绩', `班级ID: ${class_id}, 学生ID: ${student_id}, 科目: ${subject}, 成绩: ${score}`);
+
     res.json({
       code: 201,
       message: '成绩添加成功',
@@ -62,6 +67,9 @@ router.delete('/:id', verifyToken, async (req, res) => {
 
 
     await db.query('DELETE FROM scores WHERE id = ?', [id]);
+
+    // 记录日志
+    await addLog(req, '删除成绩', `成绩ID: ${id}, 班级ID: ${deletedScore.class_id}, 学生ID: ${deletedScore.student_id}, 科目: ${deletedScore.subject}`);
     res.json({
       code: 200,
       message: '成绩删除成功',
@@ -93,6 +101,10 @@ router.put('/:id', verifyToken, async (req, res) => {
       return res.status(400).json({ code: 400, message: '成绩未改变' });
     }
     await db.query('UPDATE scores SET score = ? WHERE id = ?', [score, id]);
+
+    // 记录日志
+    await addLog(req, '修改成绩', `成绩ID: ${id}, 班级ID: ${oldScoreData.class_id}, 学生ID: ${oldScoreData.student_id}, 科目: ${oldScoreData.subject}, 旧成绩: ${oldScoreData.score}, 新成绩: ${score}`);
+
     res.json({
       code: 200,
       message: '成绩修改成功',
@@ -174,6 +186,101 @@ router.get('/statistics', verifyToken, async (req, res) => {
   }
 });
 
+
+
+// 导出成绩（CSV格式）
+router.get('/export', verifyToken, async (req, res) => {
+  const { classId, subject, studentId, studentName } = req.query;
+
+  //获取用户的角色和班级ID
+  const userRole = req.user.role;
+  const userClassId = req.user.classId;
+
+  try {
+    // 1. 构建查询SQL（关联学生姓名和班级名称）
+    let sql = `
+            SELECT 
+                u.name as student_name,
+                u.id as student_no,
+                c.name as class_name,
+                s.subject,
+                s.score,
+                s.updated_at
+            FROM scores s
+            LEFT JOIN users u ON s.student_id = u.id
+            LEFT JOIN classes c ON s.class_id = c.id
+            WHERE 1=1
+        `;
+    let params = [];
+
+    // 2. 添加筛选条件
+    if (userRole === 'teacher') {
+      sql += ' AND s.class_id = ?';
+      params.push(userClassId);
+    }
+
+
+    if (classId && userRole === 'admin') {
+      sql += ' AND s.class_id = ?';
+      params.push(classId);
+    }
+    if (subject) {
+      sql += ' AND s.subject = ?';
+      params.push(subject);
+    }
+    if (studentId) {
+      sql += ' AND u.id = ?';
+      params.push(studentId);
+    }
+    if (studentName) {
+      sql += ' AND u.name LIKE ?';
+      params.push(`%${studentName}%`);
+    }
+
+    // 3. 执行查询
+    const [rows] = await db.query(sql, params);
+
+    // 4. 判断是否有数据
+    if (rows.length === 0) {
+      return res.status(404).json({
+        code: 404,
+        message: '没有找到符合条件的数据'
+      });
+    }
+
+    // 5. 生成CSV内容
+    const headers = ['学号', '学生姓名', '班级', '科目', '分数', '更新时间'];
+    const csvRows = [headers];
+
+    rows.forEach(row => {
+      csvRows.push([
+        row.student_id || '',
+        row.student_name || '',
+        row.class_name || '',
+        row.subject || '',
+        row.score || '',
+        row.updated_at ? new Date(row.updated_at).toLocaleString() : ''
+      ]);
+    });
+
+    // 6. 转换为CSV字符串
+    const csvContent = csvRows.map(row => row.join(',')).join('\n');
+
+    // 7. 添加BOM解决中文乱码
+    const bom = '\uFEFF';
+
+    // 8. 设置响应头（告诉浏览器下载文件）
+    res.setHeader('Content-Type', 'text/csv;charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename=scores_${Date.now()}.csv`);
+
+    // 9. 发送文件
+    res.send(bom + csvContent);
+
+  } catch (err) {
+    console.error('导出失败:', err);
+    res.status(500).json({ code: 500, message: '导出失败：' + err.message });
+  }
+});
 
 
 module.exports = router

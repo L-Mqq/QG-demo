@@ -12,7 +12,7 @@ function renderClass(class_id) {
     console.log(data.data)
     data.data.forEach(item => {
       if (item.id === class_id) {
-        document.querySelector('.readonly').innerHTMLinnerHTML = item.name
+        document.querySelector('.class-name').innerHTML = item.name
       }
     })
   })

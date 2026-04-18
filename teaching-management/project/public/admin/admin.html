@@ -98,6 +98,7 @@
           <button class="btn" id="logBtn">查看日志</button>
         </div>
       </div>
+
       <!-- 平板筛选条件 -->
       <details class="mid-filter">
         <summary>展开筛选条件</summary>
@@ -179,7 +180,7 @@
             </div>
             <div class="button-group">
               <button class="btn btn-primary">应用筛选</button>
-              <button class="btn">导出数据</button>
+              <button class="btn" id="exportBtnMobile">导出数据</button>
             </div>
           </div>
         </div>
@@ -263,21 +264,46 @@
 
     <!-- 全量班级通知 -->
     <section class="panel notice-panel card">
-      <h2>全量班级通知</h2>
-      <ul class="notice-list">
-        <li class="unread">
-          <span class="notice-title">[高一年级] 期中考试成绩发布</span>
-          <span class="notice-time">今天 10:20</span>
-        </li>
-        <li class="unread">
-          <span class="notice-title">[高二（2）班] 家长会通知确认</span>
-          <span class="notice-time">今天 09:10</span>
-        </li>
-        <li>
-          <span class="notice-title">[教务处] 成绩录入截止时间提醒</span>
-          <span class="notice-time">昨天 18:30</span>
-        </li>
-      </ul>
+      <div class="panel-head">
+        <h2>通知</h2>
+        <div class="button-group compact">
+          <button class="btn btn-primary" id="publishNoticeBtn">发布通知</button>
+        </div>
+      </div>
+      <div class="notice-wrap">
+        <ul class="notice-list" id="noticeList">
+          <li class="unread">
+            <div class="notice-content">
+              <span class="notice-title">[高一年级] 期中考试成绩发布</span>
+              <div class="notice-meta">
+                <span class="notice-class">班级：高一年级</span>
+                <span class="notice-author">发布者：教务处</span>
+              </div>
+            </div>
+            <span class="notice-time">今天 10:20</span>
+          </li>
+          <li class="unread">
+            <div class="notice-content">
+              <span class="notice-title">[高二（2）班] 家长会通知确认</span>
+              <div class="notice-meta">
+                <span class="notice-class">班级：高二（2）班</span>
+                <span class="notice-author">发布者：王老师</span>
+              </div>
+            </div>
+            <span class="notice-time">今天 09:10</span>
+          </li>
+          <li>
+            <div class="notice-content">
+              <span class="notice-title">[教务处] 成绩录入截止时间提醒</span>
+              <div class="notice-meta">
+                <span class="notice-class">班级：所有班级</span>
+                <span class="notice-author">发布者：教务处</span>
+              </div>
+            </div>
+            <span class="notice-time">昨天 18:30</span>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <!--确认删除弹框 -->
@@ -502,6 +528,102 @@
       </div>
     </div>
 
+
+
+    <!-- 查看日志弹框 -->
+    <div class="modal" id="logModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>系统日志</h2>
+        </div>
+        <div class="modal-body">
+          <div class="log-container">
+            <ul id="logList" class="log-list">
+              <!-- 日志内容将通过JavaScript动态渲染 -->
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="cancelLog">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 发布通知弹框 -->
+    <div class="modal" id="publishNoticeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>发布通知</h2>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label for="noticeClass">班级</label>
+            <select id="noticeClass" required>
+              <!-- <option value="">请选择班级</option>
+              <option value="all">所有班级</option>
+              <option value="class_001">高一（1）班</option>
+              <option value="class_002">高一（2）班</option>
+              <option value="class_003">高一（3）班</option>
+              <option value="class_004">高二（1）班</option>
+              <option value="class_005">高二（2）班</option> -->
+            </select>
+            <span class="notice-class-message"></span>
+          </div>
+          <div class="field">
+            <label for="noticeTitle">通知标题</label>
+            <input type="text" id="noticeTitle" placeholder="请输入通知标题" required autocomplete="off">
+            <span class="notice-title-message"></span>
+          </div>
+          <div class="field">
+            <label for="noticeContent">通知内容</label>
+            <textarea id="noticeContent" rows="4" placeholder="请输入通知内容" required autocomplete="off"></textarea>
+            <span class="notice-content-message"></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-class" id="confirmPublish">发布</button>
+          <button class="btn btn-primary" id="cancelPublish">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 查看通知弹框 -->
+    <div class="modal" id="viewNoticeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>通知详情</h2>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label>通知时间</label>
+            <div class="view-field" id="viewNoticeTime"></div>
+          </div>
+          <div class="field">
+            <label>通知标题</label>
+            <div class="view-field" id="viewNoticeTitle"></div>
+          </div>
+          <div class="field">
+            <label>通知内容</label>
+            <div class="view-field notice-content" id="viewNoticeContent"></div>
+          </div>
+          <div class="field">
+            <label>班级</label>
+            <div class="view-field" id="viewNoticeClass"></div>
+          </div>
+          <div class="field">
+            <label>发布者</label>
+            <div class="view-field" id="viewNoticeAuthor"></div>
+          </div>
+          <div class="notices-msg"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn  " id="deleteNotice" style="display: none;">删除</button>
+          <button class="btn btn-success" id="editNotice" style="display: none;">编辑</button>
+          <button class="btn btn-primary" id="closeNotice">关闭</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 退出登录确认弹框 -->
     <div class="modal" id="logoutConfirmModal">
       <div class="modal-content">
@@ -531,7 +653,9 @@
   <script src="./js/viewScore.js"></script>
   <script src="./js/logout.js"></script>
   <script src="./js/bindTeacher.js"></script>
-  <!-- <script src="./js/changeTeacher.js"></script> -->
+  <script src="./js/export.js"></script>
+  <script src="./js/log.js"></script>
+  <script src="./js/notices.js"></script>
 </body>
 
 </html>

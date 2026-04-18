@@ -25,6 +25,8 @@ document.querySelector('#classSelect').addEventListener('change', async () => {
 // 新增班级
 document.querySelector('#addClassBtn').addEventListener('click', () => {
   // 显示新增班级弹框
+  document.querySelector('#addClass').value = '';
+  document.querySelector('#addClassTeacher').value = '';
   document.querySelector('.class-message').innerHTML = '';
   document.querySelector('.class-message').classList.remove('error', 'success');
   document.querySelector('.teacher-message').innerHTML = '';

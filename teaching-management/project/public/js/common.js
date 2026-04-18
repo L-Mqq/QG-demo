@@ -15,7 +15,7 @@ function apiRequest(url, option = {}) {
       // Token 过期，跳转登录页
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      location.href = '/login/index.html';
+      location.href = '/login/login.html';
       throw new Error('请重新登录');
     }
     //返回后端对应接口提供的数据
@@ -28,5 +28,5 @@ function apiRequest(url, option = {}) {
 function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
-  location.href = '/login/index.html';
+  location.href = '/login/login.html';
 }

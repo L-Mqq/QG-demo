@@ -1,7 +1,8 @@
 const db = require('../models/db');
 const { generateToken } = require('../middleware/auth');
+const bcrypt = require('bcryptjs');
 
-// 登录控制器
+//// 登录控制器
 // 接收用户名和密码
 // 验证用户名和密码
 // 生成JWT并返回
@@ -28,9 +29,10 @@ async function login(req, res) {
     // console.log('密码是否匹配:', password === user.password);
     // console.log('密码类型比较:', typeof password, typeof user.password);
 
-    // 暂时用明文比较（后续换成 bcrypt）
-    if (password !== user.password) {
-      return res.status(401).json({ code: 401, message: '用户名或密码错误' });
+    const isValid = await bcrypt.compare(password, user.password);
+
+    if (!isValid) {
+      return res.status(401).json({ message: '用户名或密码错误' });
     }
 
     // 生成JWT

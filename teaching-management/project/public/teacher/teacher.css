@@ -151,18 +151,30 @@ label {
   color: var(--muted);
 }
 
-.readonly {
+.readonly .view-field {
   width: 100%;
   border: 1px solid #c5dbfa;
   border-radius: 8px;
   padding: 10px;
   font-size: 14px;
   background: #fbfdff;
-  color: #1a3c67;
+  color: var(--font);
+}
+
+.view-field.notice-content {
+  min-height: 120px;
+  white-space: pre-wrap;
+  line-height: 1.4;
+  font-family: inherit;
+  text-align: left;
+  vertical-align: top;
+  display: flex;
+  align-items: flex-start;
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   border: 1px solid #c5dbfa;
   border-radius: 8px;
@@ -170,12 +182,16 @@ select {
   outline: none;
   font-size: 14px;
   background: #fbfdff;
+  font-family: inherit;
+  resize: vertical;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.14);
+  background: #fff;
 }
 
 .button-group {
@@ -308,6 +324,14 @@ a {
   gap: 10px;
 }
 
+.notice-wrap {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 454px;
+}
+
 .notice-list li {
   border: 1px solid #d8e8ff;
   border-radius: 10px;
@@ -315,8 +339,9 @@ a {
   padding: 10px 12px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
+  margin: 8px;
 }
 
 .notice-list li.unread {
@@ -324,17 +349,42 @@ a {
   background: #eef6ff;
 }
 
-.notice-title {
-  font-size: 14px;
+.notice-content {
+  flex: 1;
+  min-width: 0;
 }
 
-.notice-meta {
-  font-size: 13px;
+.notice-title {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.notice-meta-info {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
   color: var(--muted);
+  margin-top: 4px;
+}
+
+.notice-class {
   white-space: nowrap;
 }
 
-.notice-meta .unread-count {
+.notice-author {
+  white-space: nowrap;
+}
+
+.notice-stats {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.notice-stats .unread-count {
   color: #b1122a;
   font-weight: 700;
 }
@@ -578,6 +628,27 @@ tbody tr:nth-child(odd) {
   background: #f9fcff;
 }
 
+/* 通知弹框 */
+.notices-msg {
+  height: 15px;
+  line-height: 15px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.notices-msg.error {
+  color: #f56c6c;
+  opacity: 1;
+}
+
+.notices-msg.success {
+  color: #67c23a;
+  opacity: 1;
+}
+
+
+
 @media (min-width: 1200px) {
   .teacher-page {
     grid-template-columns: repeat(12, 1fr);
@@ -739,10 +810,120 @@ tbody tr:nth-child(odd) {
     gap: 6px;
   }
 
+  .notice-wrap {
+    max-height: 390px;
+  }
+
+  .notice-list li {
+    margin: 6px;
+  }
+
+  .notice-content {
+    width: 100%;
+  }
+
+  .notice-meta-info {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .notice-stats {
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
   .notice-list li.unread .notice-title::before {
     content: "● ";
     color: var(--badge);
     font-weight: 700;
     font-size: 16px;
   }
+}
+
+/* 日志弹框样式 */
+#logModal .modal-content {
+  width: min(92vw, 600px);
+}
+
+#logModal .modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+  display: block;
+}
+
+#logModal .log-container {
+  width: 100%;
+}
+
+#logModal .log-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#logModal .log-item {
+  border: 1px solid #e2efff;
+  border-radius: 8px;
+  padding: 12px;
+  background: #f9fcff;
+  display: block;
+}
+
+#logModal .log-time {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  white-space: normal;
+}
+
+#logModal .log-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#logModal .log-action {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+#logModal .log-user {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+#logModal .log-details {
+  font-size: 13px;
+  color: var(--text);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* 输入通知 */
+.notice-title-message,
+.notice-content-message {
+  display: ibnline-block;
+  height: 15px;
+  line-height: 15px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.notice-title-message.error,
+.notice-content-message.error {
+  color: #ff4d4f;
+  opacity: 1;
+  visibility: visible;
+}
+
+.notice-title-message.success,
+.notice-content-message.success {
+  color: #4caf50;
+  opacity: 1;
+  visibility: visible;
 }

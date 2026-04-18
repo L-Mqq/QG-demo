@@ -2,12 +2,17 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/db');
 const { verifyToken } = require('../middleware/auth');
+const { addLog } = require('../utils/logger');
+
+
+
 
 // 获取所有班级
 router.get('/', verifyToken, async (req, res) => {
   // res.send('获取所有班级');
   try {
     const [classes] = await db.query('SELECT * FROM classes');
+
     res.json({
       code: 200,
       message: '获取班级成功',
@@ -25,7 +30,12 @@ router.post('/', verifyToken, async (req, res) => {
   }
   const { name, teacher_id } = req.body;
   try {
+    // console.log('req.user:', req.user);
+
     const [result] = await db.query('INSERT INTO classes (name, teacher_id) VALUES (?, ?)', [name, teacher_id || null]);
+    // 记录日志
+    await addLog(req, '新增班级', `班级名称: ${name}, 教师ID: ${teacher_id || null}`);
+
     res.json({
       code: 201,
       message: '班级新增成功',
@@ -62,6 +72,8 @@ router.delete('/:id', verifyToken, async (req, res) => {
       'UPDATE users SET class_id = NULL WHERE class_id = ? AND role = "teacher"',
       [id]
     );
+    // 记录日志
+    await addLog(req, '删除班级', `班级ID: ${id}, 班级名称: ${deletedClass.name}, 教师ID: ${deletedClass.teacher_id || null}`);
 
     //删除班级
     await db.query('DELETE FROM classes WHERE id = ?', [id]);
@@ -80,8 +92,6 @@ router.delete('/:id', verifyToken, async (req, res) => {
 });
 
 
-
-// 更新班级教师绑定
 
 
 

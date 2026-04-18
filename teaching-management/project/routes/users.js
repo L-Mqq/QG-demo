@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models/db');
+const { verifyToken } = require('../middleware/auth');
+const { addLog } = require('../utils/logger');
 
 router.get('/', async (req, res) => {
   try {
@@ -17,8 +19,8 @@ router.get('/', async (req, res) => {
 });
 
 
-//修改用户信息
-router.put('/:id', async (req, res) => {
+//修改教师信息 班级信息 绑定按钮
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { class_id } = req.body;
@@ -33,9 +35,14 @@ router.put('/:id', async (req, res) => {
     // 如果是教师且有新班级，设置新班级的 teacher_id
     if (isTeacher && class_id) {
       await db.query('UPDATE classes SET teacher_id = ? WHERE id = ?', [id, class_id]);
+      // 记录日志
+      await addLog(req, '绑定班主任', `教师ID: ${id} 绑定到班级: ${class_id}`);
     }
 
     await db.query('UPDATE users SET class_id = ? WHERE id = ?', [class_id, id]);
+
+    // 记录日志
+    await addLog(req, '修改教师信息', `教师ID: ${id}, 新班级ID: ${class_id}`);
 
     const [updatedUser] = await db.query(
       'SELECT id, username, name, role, class_id, created_at FROM users WHERE id = ?',
@@ -43,7 +50,7 @@ router.put('/:id', async (req, res) => {
     );
     res.json({
       code: 200,
-      message: '用户信息更新成功',
+      message: '教师与班级信息更新成功',
       data: updatedUser[0]
     });
   } catch (err) {
